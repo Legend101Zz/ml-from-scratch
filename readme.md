@@ -1,5 +1,7 @@
 # Machine Learning From Scratch: A Mathematical Journey
 
+> "What I cannot create, I do not understand." - Richard Feynman
+
 Welcome to my comprehensive exploration of machine learning algorithms! This repository represents my commitment to understanding the mathematical foundations that power modern artificial intelligence, built one algorithm at a time from the ground up.
 
 ## Why This Journey Matters
