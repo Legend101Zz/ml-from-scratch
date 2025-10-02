@@ -54,3 +54,7 @@ iamges here ...
 Machine learning algorithms make sense of data by understanding its statistical properties. Before an algorithm can find patterns, it needs to understand what the data looks like on average, how much it varies, and how different features relate to each other.
 
 you can go through the `statistics.py` to see the fundamental functions I defined ...
+
+what is samples in these functions:
+
+images here ..
