@@ -1,0 +1,4 @@
+def mean(data):
+    """
+    Calculate  
+    """
