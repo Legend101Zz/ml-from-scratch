@@ -1,9 +1,7 @@
 from collections import Counter
 
-from preprocessing import normalize_features
-
-from ..foundations.distance_metrics import (euclidean_distance,
-                                            manhattan_distance)
+from foundations.distance_metrics import euclidean_distance, manhattan_distance
+from knn.preprocessing import normalize_features
 
 
 def classify_knn(unknown_point,training_data, training_labels, k=3, distance_metric='euclidean'):
