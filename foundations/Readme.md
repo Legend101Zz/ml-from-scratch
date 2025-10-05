@@ -26,7 +26,7 @@ Every operation we build here will be a recurring character in our story.
 - **Mean and variance** are the lenses through which we understand our data.
 - **Dot products** are the rulers we use to measure similarity.
 
-By implementing these myself, I'm learning the vocabulary of machine learning at its deepest level.
+By implementing these myself, I'm kinda trying to learning the vocabulary of machine learning at its deepest level.
 
 ## Our First Mathematical Implementations
 
@@ -58,3 +58,24 @@ you can go through the `statistics.py` to see the fundamental functions I define
 what is samples in these functions:
 
 images here ..
+
+## Probability and Statistical Relationships
+
+So in ML we fundamentally only care about making predictions under uncertainty . We never have perfect information about future data, so our algorithms must reason probabilistically about what is likely true and this is were in ML we use `Probability` for expressing and manipulating this uncertainty .
+
+Like consider what a ML model is doing when it is making predictions , It is not saying that _"The Email is Spam !!"_ it says that from what patterns I have learned , there is a 87 % probability that this email is spam .
+
+### Understanding Probability Distributions
+
+A probability distribution describes how likely different outcomes are in a random process. In machine learning, we often assume our data follows certain distributions, and understanding these distributions helps us choose appropriate algorithms.
+you'll find a `probability,py` file ... which has all needed probabilty functions .
+
+## Statistical Relationships Between Variables
+
+Now let's implement functions that measure how variables relate to each other. These relationships are crucial for understanding which features in our data are informative for prediction, look the `statistics.py` file again ..
+
+## The Geometry of Machine Learning: Distance Metrics
+
+Before we can implement k-Nearest Neighbors, we need to understand how to measure similarity between data points. In machine learning, "similar" data points should make similar predictions, but how do we mathematically define "similar"?
+The answer is distance metrics. By treating each data point as a point in multi-dimensional space, we can measure how far apart points are. Points that are close together are similar; points far apart are different.
+Look in file `distance_metrics.py`
