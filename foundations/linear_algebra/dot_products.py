@@ -326,6 +326,20 @@ def cosine_similarity(v1: Vector, v2: Vector) -> float:
         )
     return dot / (norm1 * norm2 )
 
+def cosine_distance(vector1: Vector, vector2: Vector):
+    """
+    Convert cosine similarity to a distance metric.
+    
+    Since similarity of 1 means identical and 0 means orthogonal,
+    we define distance as 1 - similarity.
+    
+    Returns value between 0 and 2:
+    - 0: Identical direction
+    - 1: Perpendicular
+    - 2: Opposite directions
+    """
+    return 1 - cosine_similarity(vector1, vector2)
+
 def projection(v: Vector, onto: Vector) -> Vector:
     """
     Project vector v onto vector onto (the shadow of v on onto).

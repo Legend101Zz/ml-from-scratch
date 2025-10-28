@@ -1,3 +1,22 @@
+"""
+Why this module exists:
+-----------------------
+Statistics is the language of data. Before we can do machine learning,
+we need to understand our data: Where is the center? How spread out is it?
+How do variables relate to each other?
+
+Every ML algorithm uses these fundamental statistical concepts:
+- Linear Regression: minimizes mean squared error
+- Normalization: uses mean and standard deviation
+- Gradient Descent: computes mean gradient across samples
+- PCA: uses covariance matrices
+
+This module implements statistics WITHOUT numpy, using only math module!
+"""
+
+import math
+
+
 def mean(data):
     """
     Calculate the arithmetic mean (average) of a dataset
@@ -15,6 +34,62 @@ def mean(data):
     if not data:
         raise ValueError("Cannot calculate mean of empty dataset")
     return sum(data) / len(data)
+
+def median(data):
+    """
+    Compute the median (middle value) of a dataset.
+    
+    Mathematical Definition:
+    ------------------------
+    For sorted data x_1 <= x_2 <= ... <= x_n:
+    
+    - If n is odd:  median = x_{(n+1)/2}
+    - If n is even: median = (x_{n/2} + x_{n/2 + 1}) / 2
+    
+    Intuition:
+    ----------
+    The "middle" value that splits data into two equal halves.
+    
+    Think of people lined up by height - the median is the person in the middle.
+    Half are shorter, half are taller.
+    
+    Properties:
+    -----------
+    - Robust to outliers (unlike mean!)
+    - Better for skewed distributions
+    - Represents the "typical" value
+    
+    Parameters:
+    -----------
+    data : list of float/int
+        The dataset (must not be empty)
+    
+    Returns:
+    --------
+    float : The median value
+    
+    Example:
+    --------
+    >>> median([1, 2, 3, 4, 5])
+    3
+    >>> median([1, 2, 100, 200])  # Mean would be 75.75, median is 51
+    51.0
+    """
+    if not data:
+        raise ValueError("Cannot compute median of empty dataset")
+    
+    sorted_data = sorted(data)
+    n = len(sorted_data)
+    
+    if n%2 == 1:
+        # Odd length: return middle element
+        middle_index = n // 2
+        return float(sorted_data[middle_index])
+    else:
+        # Even length: return avg of two middle elements
+        middle1 = n // 2
+        middle2 = n // 2 - 1
+        return (sorted_data[middle1] + sorted_data[middle2]) / 2.0
 
 def variance(data, sample=True):
     """
@@ -46,6 +121,49 @@ def standard_deviation(data,sample=True):
     This makes it more interpretable than variance for understanding data distributions. 
     """
     return variance(data,sample) ** 0.5
+
+def mean_absolute_deviation(data):
+    """
+    Compute Mean Absolute Deviation (MAD) - average distance from mean.
+    
+    Mathematical Definition:
+    ------------------------
+    MAD = (1/n) * sum_{i=1}^{n} |x_i - mean(x)|
+    
+    Intuition:
+    ----------
+    Like standard deviation, but using absolute value instead of squaring.
+    
+    Differences from standard deviation:
+    - MAD: uses |deviation| - treats all deviations equally
+    - Std: uses deviation² - penalizes large deviations more
+    
+    MAD is more robust to outliers than standard deviation!
+    
+    Parameters:
+    -----------
+    data : list of float/int
+        The dataset
+    
+    Returns:
+    --------
+    float : The mean absolute deviation
+    
+    Example:
+    --------
+    >>> mean_absolute_deviation([1, 2, 3, 4, 5])
+    1.2
+    """
+    if not data:
+        raise ValueError("Cannot compute MAD of empty dataset")
+    
+    mu = mean(data)
+    
+    sum_abs_deviations = 0.0
+    for x in data:
+        sum_abs_deviations += abs(x - mu)
+    
+    return sum_abs_deviations / len(data)
 
 def covariance(x,y):
     """ 
@@ -141,3 +259,58 @@ def covariance_matrix(data):
                 cov_matrix[i][j] = covariance(data[i], data[j]) 
                 
     return cov_matrix
+
+# ============================================================================
+# SUMMARY STATISTICS
+# ============================================================================
+
+def describe(data):
+    """
+    Compute comprehensive summary statistics for a dataset.
+    
+    This function gives you a complete picture of your data at a glance!
+    
+    Returns a dictionary with:
+    - count: number of data points
+    - mean: average value
+    - median: middle value
+    - std: standard deviation
+    - var: variance
+    - min: smallest value
+    - max: largest value
+    - range: max - min
+    
+    Parameters:
+    -----------
+    data : list of float/int
+        The dataset to describe
+    
+    Returns:
+    --------
+    dict : Dictionary containing all summary statistics
+    
+    Example:
+    --------
+    >>> describe([1, 2, 3, 4, 5, 100])
+    {
+        'count': 6,
+        'mean': 19.166...,
+        'median': 3.5,
+        'std': 39.67...,
+        ...
+    }
+    """
+    if not data:
+        raise ValueError("Cannot describe empty dataset")
+    
+    return {
+        'count': len(data),
+        'mean': mean(data),
+        'median': median(data),
+        'std': standard_deviation(data),
+        'var': variance(data),
+        'min': min(data),
+        'max': max(data),
+        'range': max(data) - min(data),
+        'mad': mean_absolute_deviation(data)
+    }
