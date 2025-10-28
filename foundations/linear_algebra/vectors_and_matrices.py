@@ -566,3 +566,164 @@ class Vector:
         cos_angle = max(-1.0, min(1.0, dot_product / norm_product))
         
         return math.acos(cos_angle)
+    
+class Matrix:
+    """
+    A Matrix represents a 2D array of numbers arranged in rows and columns.
+    
+    MATHEMATICAL DEFINITION:
+    -----------------------
+    A matrix is a rectangular array of numbers with m rows and n columns.
+    We say the matrix is m-by-n (rows by columns).
+    
+    Example of a 3-by-2 matrix:
+    [[1, 2],
+     [3, 4],
+     [5, 6]]
+    
+    This has 3 rows and 2 columns, so it's 3-by-2.
+    
+    GEOMETRIC INTERPRETATION:
+    ------------------------
+    A matrix represents a LINEAR TRANSFORMATION of space.
+    When you multiply a vector by a matrix, you transform that vector.
+    
+    The transformation can:
+    - Rotate the vector
+    - Scale it (stretch or shrink)
+    - Reflect it (flip it)
+    - Project it to lower dimensions
+    - Or any combination of these!
+    
+    MACHINE LEARNING EXAMPLES:
+    -------------------------
+    - DATA MATRIX: Each row is a data point, each column is a feature
+      [[house1_sqft, house1_bedrooms, house1_age],
+       [house2_sqft, house2_bedrooms, house2_age],
+       ...]
+    
+    - WEIGHT MATRIX: In neural networks, weights are arranged in matrices
+      Each row connects one layer's neurons to the next layer
+    
+    - COVARIANCE MATRIX: Shows how features vary together
+      Element (i,j) is the covariance between feature i and feature j
+    
+    - TRANSFORMATION MATRIX: In PCA, the principal components form a matrix
+      Multiplying data by this matrix projects it to lower dimensions
+    
+    WHY WE NEED THIS CLASS:
+    ----------------------
+    Like vectors, Python's nested lists can store matrices but don't have
+    the mathematical operations (multiplication, transpose, etc.) we need.
+    This class adds those operations.
+    """
+    def __init__(self,elements: List[List[float]]):
+        """
+        Initialize a matrix from a list of lists (rows).
+        
+        Parameters:
+        ----------
+        elements : List[List[float]]
+            A list of rows, where each row is a list of numbers
+            
+        Example:
+        -------
+        m = Matrix([[1, 2, 3],
+                    [4, 5, 6]])
+        This creates a 2-by-3 matrix (2 rows, 3 columns).
+        
+        INTERNAL REPRESENTATION:
+        -----------------------
+        We store the matrix as a list of rows. Each row is a list of numbers.
+        This is called "row-major" order and is the most natural representation.
+        
+        IMPORTANT REQUIREMENT:
+        ---------------------
+        All rows must have the same length! A matrix must be rectangular.
+        You cannot have rows of different lengths.
+        """
+        if not elements:
+            raise ValueError("Matrix cannot be empty")
+        
+        # Check that all rows have the same length
+        row_lengths = [len(row) for row in elements]
+        if len(set(row_lengths)) > 1:
+            raise ValueError(
+                f"All rows must have the same length! "
+                f"Got row lengths: {row_lengths}"
+            )
+        
+        self.elements = elements
+        self.num_rows = len(elements)
+        self.num_cols = len(elements[0])
+        self.shape = (self.num_cols,self.num_cols)
+
+    def __repr__(self) -> str:
+        """Return a readable string representation of the matrix."""
+        return f"Matrix({self.elements})"
+    
+    def __getitem__(self, index: Tuple[int, int]) -> float:
+        """
+        Access individual elements using [row, col] notation.
+        
+        Example:
+        -------
+        >>> m = Matrix([[1, 2, 3], [4, 5, 6]])
+        >>> m[0, 1]
+        2
+        >>> m[1, 2]
+        6
+        
+        INDEXING CONVENTION:
+        -------------------
+        We use [row, column] indexing, both starting from 0.
+        In mathematics, this element is often written as M_(i+1, j+1)
+        (1-based indexing).
+        """
+        row, column = index
+        return self.elements[row][column]
+
+    def __setitem__(self, index: Tuple[int, int], value: float):
+        """
+        Modify individual elements using [row, col] notation.
+        
+        Example:
+        -------
+        >>> m = Matrix([[1, 2], [3, 4]])
+        >>> m[0, 1] = 10
+        >>> m
+        Matrix([[1, 10], [3, 4]])
+        """
+        row, col = index
+        self.elements[row][col] = value
+        
+    @property
+    def row(self, i:int) -> Vector:
+        """
+        Extract row i as a Vector.
+        
+        This is useful for operations that process rows independently.
+        
+        Example:
+        -------
+        >>> m = Matrix([[1, 2, 3], [4, 5, 6]])
+        >>> m.get_row(0)
+        Vector([1, 2, 3])
+        """
+        return Vector(self.elements[i])
+    
+    @property
+    def column(self, j:int) -> Vector:
+        """
+        Extract column j as a Vector.
+        
+        This requires gathering elements from each row.
+        
+        Example:
+        -------
+        >>> m = Matrix([[1, 2, 3], [4, 5, 6]])
+        >>> m.get_col(1)
+        Vector([2, 5])
+        """
+        return Vector([self.elements[i][j] for i in range(self.num_rows)])
+    
