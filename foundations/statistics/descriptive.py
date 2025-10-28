@@ -14,9 +14,6 @@ Every ML algorithm uses these fundamental statistical concepts:
 This module implements statistics WITHOUT numpy, using only math module!
 """
 
-import math
-
-
 def mean(data):
     """
     Calculate the arithmetic mean (average) of a dataset

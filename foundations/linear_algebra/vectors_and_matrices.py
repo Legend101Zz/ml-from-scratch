@@ -680,8 +680,12 @@ class Matrix:
         In mathematics, this element is often written as M_(i+1, j+1)
         (1-based indexing).
         """
-        row, column = index
-        return self.elements[row][column]
+        if isinstance(index, tuple):
+            row, column = index
+            return self.elements[row][column]
+        else:
+            # If only one index is given, return that row (as a list or Vector)
+            return self.elements[index]
 
     def __setitem__(self, index: Tuple[int, int], value: float):
         """
