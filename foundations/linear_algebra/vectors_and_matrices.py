@@ -697,7 +697,6 @@ class Matrix:
         row, col = index
         self.elements[row][col] = value
         
-    @property
     def row(self, i:int) -> Vector:
         """
         Extract row i as a Vector.
@@ -712,7 +711,6 @@ class Matrix:
         """
         return Vector(self.elements[i])
     
-    @property
     def column(self, j:int) -> Vector:
         """
         Extract column j as a Vector.
@@ -727,3 +725,70 @@ class Matrix:
         """
         return Vector([self.elements[i][j] for i in range(self.num_rows)])
     
+if __name__ == "__main__":
+    print("=" * 70)
+    print("VECTORS AND MATRICES: INTERACTIVE TUTORIAL")
+    print("=" * 70)
+    
+    print("\n### CREATING VECTORS ###\n")
+    
+    # Create some vectors
+    v1 = Vector([1, 2, 3])
+    v2 = Vector([4, 5, 6])
+    
+    print(f"v1 = {v1}")
+    print(f"v2 = {v2}")
+    print(f"Dimension of v1: {len(v1)}")
+    
+    print("\n### VECTOR OPERATIONS ###\n")
+    
+    # Addition
+    v_sum = v1 + v2
+    print(f"v1 + v2 = {v_sum}")
+    
+    # Scalar multiplication
+    v_scaled = v1 * 3
+    print(f"3 * v1 = {v_scaled}")
+    
+    # Norm (length)
+    print(f"||v1|| (Euclidean norm) = {v1.norm():.4f}")
+    print(f"||v1||_1 (Manhattan norm) = {v1.norm(p=1):.4f}")
+    
+    # Normalization
+    v1_unit = v1.normalize()
+    print(f"v1 normalized: {v1_unit}")
+    print(f"Norm of normalized v1: {v1_unit.norm():.4f}")
+    
+    # Dot product
+    dot = v1.dot(v2)
+    print(f"v1 · v2 = {dot:.4f}")
+    
+    # Angle
+    angle_rad = v1.angle_with(v2)
+    angle_deg = math.degrees(angle_rad)
+    print(f"Angle between v1 and v2: {angle_deg:.2f} degrees")
+    
+    print("\n### CREATING MATRICES ###\n")
+    
+    m1 = Matrix([[1, 2, 3],
+                 [4, 5, 6]])
+    
+    print(f"m1 = {m1}")
+    print(f"Shape: {m1.shape} (rows × columns)")
+    print(f"Element at [0, 1]: {m1[0, 1]}")
+    
+    print("\n### EXTRACTING ROWS AND COLUMNS ###\n")
+    
+    row0 = m1.row(0)
+    col1 = m1.column(1)
+    
+    print(f"Row 0: {row0}")
+    print(f"Column 1: {col1}")
+    
+    print("\n✅ Vector and Matrix basics complete!")
+    print("\nNext: Implement dot_products.py for advanced vector operations")
+    print("Then: matrix_multiplication.py to see how matrices transform space")
+
+
+
+
