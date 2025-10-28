@@ -116,7 +116,7 @@ With standardization:
 Now Let's implement this crucial transformation!
 """
 
-from typing import Optional, Tuple
+from typing import Optional
 
 from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
 from foundations.statistics.descriptive import *
