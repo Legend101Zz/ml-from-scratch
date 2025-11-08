@@ -158,7 +158,7 @@ Let's implement one-hot encoding properly!
 
 from typing import Any, Dict, List, Optional, Union
 
-from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
+from foundations.linear_algebra.vectors_and_matrices import Matrix
 from foundations.statistics.descriptive import *
 
 
@@ -269,30 +269,6 @@ class OneHotEncoder:
          self._compute_drop_idx()
          return self
       
-    def _compute_drop_idx(self):
-         """Compute which category to drop for each feature."""
-         if self.drop is None or self.categories_ is None:
-               self._drop_idx = None
-               return
-               
-         self._drop_idx = []
-         for i in range(self.n_features_in_):
-               categories = self.categories_[i]
-               n_categories = len(categories)
-               
-               if self.drop == 'first':
-                  self._drop_idx.append(0)
-               elif self.drop == 'if_binary' and n_categories == 2:
-                  self._drop_idx.append(0)
-               elif isinstance(self.drop, list):
-                  try:
-                     idx = categories.index(self.drop[i])
-                     self._drop_idx.append(idx)
-                  except (ValueError, IndexError):
-                     self._drop_idx.append(None) # Category not found or list too short
-               else:
-                  self._drop_idx.append(None)
-
     def transform(self, X: Matrix) -> Union[Matrix, List[Dict[int, float]]]:
          """Transform X using one-hot encoding."""
          if self.categories_ is None:
@@ -366,6 +342,23 @@ class OneHotEncoder:
             return self._inverse_transform_sparse(X_encoded)
       else:
             raise TypeError("Input must be a Matrix or a list of dictionaries (sparse format)")
+         
+    def get_feature_names(self, input_features: Optional[List[str]] = None) -> List[str]:
+      """Get output feature names for transformation."""
+      if self.categories_ is None:
+            raise ValueError("Encoder has not been fitted yet")
+      
+      if input_features is None:
+            input_features = [f"x{i}" for i in range(self.n_features_in_)]
+      
+      feature_names = []
+      for i, categories in enumerate(self.categories_):
+            drop_idx = self._drop_idx[i] if self._drop_idx else None
+            for j, category in enumerate(categories):
+               if j == drop_idx:
+                  continue
+               feature_names.append(f"{input_features[i]}_{category}")
+      return feature_names
 
     def _inverse_transform_dense(self, X_dense: Matrix) -> Matrix:
       """Helper for dense matrix inverse transform."""
@@ -434,29 +427,39 @@ class OneHotEncoder:
                col_offset += n_cols_out
             X_original_rows.append(current_original_row)
       return Matrix(X_original_rows)
+   
+    def _compute_drop_idx(self):
+      """Compute which category to drop for each feature."""
+      if self.drop is None or self.categories_ is None:
+            self._drop_idx = None
+            return
+            
+      self._drop_idx = []
+      for i in range(self.n_features_in_):
+            categories = self.categories_[i]
+            n_categories = len(categories)
+            
+            if self.drop == 'first':
+               self._drop_idx.append(0)
+            elif self.drop == 'if_binary' and n_categories == 2:
+               self._drop_idx.append(0)
+            elif isinstance(self.drop, list):
+               try:
+                  idx = categories.index(self.drop[i])
+                  self._drop_idx.append(idx)
+               except (ValueError, IndexError):
+                  self._drop_idx.append(None) # Category not found or list too short
+            else:
+               self._drop_idx.append(None)
 
-    def get_feature_names(self, input_features: Optional[List[str]] = None) -> List[str]:
-      """Get output feature names for transformation."""
-      if self.categories_ is None:
-            raise ValueError("Encoder has not been fitted yet")
-      
-      if input_features is None:
-            input_features = [f"x{i}" for i in range(self.n_features_in_)]
-      
-      feature_names = []
-      for i, categories in enumerate(self.categories_):
-            drop_idx = self._drop_idx[i] if self._drop_idx else None
-            for j, category in enumerate(categories):
-               if j == drop_idx:
-                  continue
-               feature_names.append(f"{input_features[i]}_{category}")
-      return feature_names
+
+
    
 # ==============================================================================
 # USAGE EXAMPLES AND TESTS
 # ==============================================================================
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     print("=" * 70)
     print("ONE-HOT ENCODING: INTERACTIVE TUTORIAL (using custom Matrix)")
     print("=" * 70)
