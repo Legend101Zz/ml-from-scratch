@@ -315,8 +315,8 @@ def train_test_split(*arrays: Matrix,
     result: List[Matrix] = []
     for arr in arrays:
         # Manually build new matrices from selected rows
-        train_rows = [arr.get_row(i) for i in train_idx]
-        test_rows = [arr.get_row(i) for i in test_idx]
+        train_rows = [arr.row(i) for i in train_idx]
+        test_rows = [arr.row(i) for i in test_idx]
         
         result.append(Matrix(train_rows))
         result.append(Matrix(test_rows))
