@@ -29,17 +29,17 @@ By following the negative gradient step by step, we gradually find parameters th
 
 ## 🧠 Mathematical Intuition
 
-For a loss function ( J(\theta) ), where ( \theta ) represents model parameters:
+For a loss function $J(\theta)$, where $\theta$ represents model parameters:
 
-[
+$$
 \theta := \theta - \alpha \nabla_\theta J(\theta)
-]
+$$
 
 where:
 
-- ( \nabla\_\theta J(\theta) ): gradient (vector of partial derivatives)
-- ( \alpha ): learning rate (step size)
-- ( \theta ): parameters being optimized
+- $\nabla_\theta J(\theta)$ — gradient (vector of partial derivatives)
+- $\alpha$ — learning rate (step size)
+- $\theta$ — parameters being optimized
 
 This single equation drives almost all learning in modern AI.
 
@@ -56,9 +56,10 @@ This single equation drives almost all learning in modern AI.
 - Computationally expensive for large datasets.
 
 **Update rule:**
-[
+
+$$
 \theta := \theta - \alpha \frac{1}{N} \sum_{i=1}^N \nabla_\theta J_i(\theta)
-]
+$$
 
 **Pros:**
 
@@ -81,9 +82,10 @@ This single equation drives almost all learning in modern AI.
 - Adds noise to the optimization path — can help escape local minima.
 
 **Update rule:**
-[
+
+$$
 \theta := \theta - \alpha \nabla_\theta J_i(\theta)
-]
+$$
 
 **Pros:**
 
@@ -101,13 +103,14 @@ This single equation drives almost all learning in modern AI.
 
 **Philosophy:** Balance between stability and speed.
 
-- Divides data into small “mini-batches” of size `m` (e.g., 32, 64, 128).
+- Divides data into small “mini-batches” of size $m$ (e.g., 32, 64, 128).
 - Each batch computes its average gradient before updating parameters.
 
 **Update rule:**
-[
+
+$$
 \theta := \theta - \alpha \frac{1}{m} \sum_{i=1}^m \nabla_\theta J_i(\theta)
-]
+$$
 
 **Pros:**
 
@@ -188,13 +191,13 @@ print(f"Learned parameters: {theta}")
 ## 🧮 Mathematical Insights
 
 - Gradient Descent ≈ **numerical optimization**
-- SGD ≈ **Monte Carlo approximation** of gradient
-- Mini-Batch GD ≈ **trade-off between variance and bias** in gradient estimate
-- Learning Rate ( \alpha ) controls step size — too small = slow, too large = divergence
+- SGD ≈ **Monte Carlo approximation** of the gradient
+- Mini-Batch GD ≈ **trade-off between variance and bias** in the gradient estimate
+- Learning Rate ($\alpha$) controls step size — too small = slow, too large = divergence
 
 ---
 
-## Design Philosophy
+## 🎨 Design Philosophy
 
 This module continues the repository’s guiding principle:
 
@@ -208,30 +211,30 @@ Each variant is:
 
 ---
 
-## Further Reading and Inspiration
+## 📚 Further Reading and Inspiration
 
 - Peter Harrington, _Machine Learning in Action_
 - Andrew Ng, _CS229 Lectures: Optimization Algorithms_
-- Sebastian Ruder, _An overview of gradient descent optimization algorithms_
+- Sebastian Ruder, _An Overview of Gradient Descent Optimization Algorithms_
 - CampusX YouTube series: _Gradient Descent Intuition and Implementation_
 
 ---
 
-## Next Steps
+## 🚀 Next Steps
 
 After mastering the basics of gradient descent, future modules will extend these concepts to:
 
-- **Adaptive Methods**: Momentum, AdaGrad, RMSProp, Adam
-- **Regularization Techniques**: Weight decay, early stopping
+- **Adaptive Methods:** Momentum, AdaGrad, RMSProp, Adam
+- **Regularization Techniques:** Weight decay, early stopping
 - **Convex Optimization Theory**
 
 These extensions build directly on the foundations laid here.
 
 ---
 
-**Current Status**: Implemented batch, mini-batch, and stochastic gradient descent
-**Next Milestone**: Add adaptive learning rate methods (Momentum, Adam)
-**Long-Term Goal**: Integrate full optimization suite into the custom ML library
+**Current Status:** Implemented batch, mini-batch, and stochastic gradient descent
+**Next Milestone:** Add adaptive learning rate methods (Momentum, Adam)
+**Long-Term Goal:** Integrate full optimization suite into the custom ML library
 
 ---
 
