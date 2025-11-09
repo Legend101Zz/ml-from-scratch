@@ -656,7 +656,7 @@ class Matrix:
         self.elements = elements
         self.num_rows = len(elements)
         self.num_cols = len(elements[0])
-        self.shape = (self.num_cols,self.num_cols)
+        self.shape = (self.num_rows,self.num_cols)
 
     def __repr__(self) -> str:
         """Return a readable string representation of the matrix."""
@@ -701,6 +701,92 @@ class Matrix:
         row, col = index
         self.elements[row][col] = value
         
+    def __add__(self,other:'Matrix') ->'Matrix':
+        """Add two matrices element-wise"""
+        if self.shape != other.shape:
+            raise ValueError(f"Cannot add matrices of different shapes: {self.shape} vs {other.shape}")
+        
+        result = [
+            [self.elements[i][j] + other.elements[i][j] for j in range(self.num_cols)]
+            for i in range(self.num_rows)
+        ]
+        return Matrix(result)
+    
+    def __sub__(self,other:'Matrix') ->'Matrix':
+        """Subtract two matrices element-wise"""
+        if self.shape != other.shape:
+            raise ValueError(f"Cannot add matrices of different shapes: {self.shape} vs {other.shape}")
+        
+        result = [
+            [self.elements[i][j] - other.elements[i][j] for j in range(self.num_cols)]
+            for i in range(self.num_rows)
+        ]
+        return Matrix(result)
+    
+    def __mul__(self,other: Union[ 'Matrix', float, int])-> 'Matrix':
+        """
+        Multiply matrix by scalar or another matrix.
+        - Scalar: scales all elements
+        - Matrix: perform matrix multiplication
+        """
+        # Case 1: Scalar
+        if isinstance(other, (int,float)):
+            result = [
+                [self.elements[i][j] * other for j in range(self.num_cols)]
+                for i in range(self.num_rows)
+            ]
+            return Matrix(result)
+        
+        # Case 2: Matrix multiplication ( A * B )
+        if isinstance(other, Matrix):
+            if self.num_cols != other.num_rows:
+                raise ValueError(f"Cannot multiply: {self.num_cols} (A cols) != {other.num_rows} (B rows)")
+            result = []
+            for i in range(self.num_rows):
+                row_result = []
+                row_vector = Vector(self.row(i))
+                for j in range(other.num_cols):
+                    column_vector = Vector(self.column(j))
+                    value = row_vector.dot(column_vector)
+                    row_result.append(value)
+                result.append(row_result)
+            return Matrix(result)
+                
+        raise TypeError(f"Unsupported operand type for *: 'Matrix' and '{type(other).__name__}'")
+
+    def __rmul__(self,other: Union[float,int]) -> 'Matrix':
+        """Right-multiplication to allow scalar * Matrix."""
+        return self.__mul__(other) 
+    
+    def __matmul__(self,other: 'Matrix') -> 'Matrix':
+        """Matrix multiplication using @ operator."""
+        if not isinstance(other, Matrix):
+            raise TypeError(f"Matrix multiplication only defined for another Matrix, not {type(other)}")
+        if self.num_cols != other.num_rows:
+            raise ValueError(f"Cannot multiply: {self.num_cols} (A cols) != {other.num_rows} (B rows)")
+        
+        result = []
+        for i in range(self.num_rows):
+            row_result = []
+            row_vector = Vector(self.row(i))
+            for j in range(other.num_cols):
+                column_vector = Vector(self.column(j))
+                value = row_vector.dot(column_vector)
+                row_result.append(value)
+            result.append(row_result)
+        return Matrix(result)
+    
+    def __truediv__(self, scalar: float) -> 'Matrix':
+        """Divide all elements by a scalar."""
+        if scalar == 0:
+            raise ValueError("Cannot divide matrix by zero.")
+        result = [
+            [self.elements[i][j] / scalar for j in range(self.num_cols)]
+            for i in range(self.num_rows)
+        ]
+        return Matrix(result)
+
+
     def row(self, i:int) -> Vector:
         """
         Extract row i as a Vector.
@@ -788,6 +874,16 @@ if __name__ == "__main__":
     
     print(f"Row 0: {row0}")
     print(f"Column 1: {col1}")
+    
+    A = Matrix([[1, 2], [3, 4]])
+    B = Matrix([[5, 6], [7, 8]])
+
+    print("A + B =", A + B)
+    print("A - B =", A - B)
+    print("A * 2 =", A * 2)
+    print("2 * A =", 2 * A)
+    print("A * B =", A * B)   # matrix multiplication
+    print("A @ B =", A @ B)   # same thing
     
     print("\n✅ Vector and Matrix basics complete!")
     print("\nNext: Implement dot_products.py for advanced vector operations")
