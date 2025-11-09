@@ -18,6 +18,8 @@ By the end of this module, you will understand:
 import math
 from typing import List, Tuple, Union
 
+from foundations.statistics.descriptive import mean
+
 
 class Vector: 
     """
@@ -814,6 +816,45 @@ class Matrix:
         Vector([2, 5])
         """
         return Vector([self.elements[i][j] for i in range(self.num_rows)])
+
+    def flatten(self) -> list:
+        """
+        Return all elements of the matrix as a single flattened list (row-major order).
+
+        Example:
+        --------
+        >>> m = Matrix([[1, 2], [3, 4]])
+        >>> m.flatten()
+        [1, 2, 3, 4]
+
+        Why flatten:
+        ------------
+        - Converts 2D matrix into 1D list for computing metrics (MSE, R², etc.)
+        - Matches how NumPy's `.ravel()` or `.flatten()` behave
+        - Keeps data order consistent: row by row (row-major)
+        """
+        flat_list = []
+        for row in self.elements:
+            flat_list.extend(row)
+        return flat_list
+    
+    def apply_func(self,func) -> 'Matrix':
+        """
+        Apply a function element-wise to all elements of the Matrix.
+        Example:
+            >>> m = Matrix([[1, -2], [3, -4]])
+            >>> m.apply_func(abs)
+            Matrix([[1, 2], [3, 4]])
+        """
+        new_elements = [[func(x) for x in row] for row in self.elements]
+        return Matrix(new_elements)
+    
+    def mean_all(self) -> float:
+        """
+        Compute the mean of all elements in the matrix.
+        """
+        all_values = [x for row in self.elements for x in row]
+        return mean(all_values)
     
 if __name__ == "__main__":
     print("=" * 70)
@@ -886,9 +927,14 @@ if __name__ == "__main__":
     print("A * B =", A * B)   # matrix multiplication
     print("A @ B =", A @ B)   # same thing
     
+    print("\n### Flatten Matrix ###\n")
+    m = Matrix([[1, 2, 3],
+                [4, 5, 6]])
+
+    print(m.flatten())  
+    
     print("\n✅ Vector and Matrix basics complete!")
-    print("\nNext: Implement dot_products.py for advanced vector operations")
-    print("Then: matrix_multiplication.py to see how matrices transform space")
+
 
 
 

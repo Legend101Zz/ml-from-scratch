@@ -222,10 +222,10 @@ MAE treats them as just another error, not catastrophic.
 Let's implement MAE with all its properties!
 """
 
-import math
-from typing import Any, Dict, List, Tuple
 
-from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
+from typing import Any, List
+
+from foundations.linear_algebra.vectors_and_matrices import Matrix
 
 from .mse_loss import mean_squared_error
 

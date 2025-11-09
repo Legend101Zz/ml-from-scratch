@@ -185,9 +185,11 @@ Let's implement MSE with all its variations!
 
 
 import math
-from typing import Any, Dict, List, Tuple
+import random
+from typing import Any, List
 
-from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
+from foundations.linear_algebra.vectors_and_matrices import Matrix
+from foundations.statistics.descriptive import mean
 
 # ==============================================================================
 #  MSE LOSS FUNCTIONS
@@ -195,7 +197,10 @@ from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
 
 def mean_squared_error(y_true: Matrix, y_pred: Matrix) -> float:
     """
-    Compute the mean squared error between true and predicted values using Matrix.
+    Compute Mean Squared Error (MSE) between true and predicted values.
+
+    Formula:
+        MSE = (1/n) * Σ (y_pred_i - y_true_i)^2
     """
     if y_true.shape != y_pred.shape:
         raise ValueError(
@@ -203,14 +208,15 @@ def mean_squared_error(y_true: Matrix, y_pred: Matrix) -> float:
             f"y_pred has shape {y_pred.shape}"
         )
     
-    # Calculate (y_pred - y_true)
-    errors_matrix = y_pred - y_true
+    # Flatten all elements into a single list of squared errors
+    squared_errors = []
+    for i in range(y_true.num_rows):
+        for j in range(y_true.num_cols):
+            error = y_pred[i, j] - y_true[i, j]
+            squared_errors.append(math.pow(error, 2))
     
     # Square each error element-wise
-    squared_errors_matrix = errors_matrix.power(2)
-    
-    # Average over all elements
-    mse = squared_errors_matrix.mean_all()
+    mse = mean(squared_errors)
     
     return float(mse)
 
@@ -320,12 +326,6 @@ if __name__ == "__main__":
     
     print(f"\nMSE = {mse:.4f}")
     print(f"RMSE = {rmse:.4f}")
-    
-    # Manual calculation for verification
-    squared_errors_display = errors_display.power(2)
-    print(f"\nSquared errors: {squared_errors_display}")
-    print(f"Mean of squared errors: {squared_errors_display.mean_all():.4f}")
-    print("→ Matches our MSE ✓")
     
     print("\n### WHY SQUARED: PENALIZING LARGE ERRORS ###\n")
     
