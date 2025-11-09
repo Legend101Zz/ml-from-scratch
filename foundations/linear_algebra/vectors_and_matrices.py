@@ -744,9 +744,9 @@ class Matrix:
             result = []
             for i in range(self.num_rows):
                 row_result = []
-                row_vector = Vector(self.row(i))
+                row_vector: Vector = self.row(i)
                 for j in range(other.num_cols):
-                    column_vector = Vector(self.column(j))
+                    column_vector: Vector = other.column(j)
                     value = row_vector.dot(column_vector)
                     row_result.append(value)
                 result.append(row_result)
@@ -768,9 +768,9 @@ class Matrix:
         result = []
         for i in range(self.num_rows):
             row_result = []
-            row_vector = Vector(self.row(i))
+            row_vector: Vector = self.row(i)
             for j in range(other.num_cols):
-                column_vector = Vector(self.column(j))
+                column_vector: Vector = other.column(j)
                 value = row_vector.dot(column_vector)
                 row_result.append(value)
             result.append(row_result)
@@ -875,6 +875,7 @@ if __name__ == "__main__":
     print(f"Row 0: {row0}")
     print(f"Column 1: {col1}")
     
+    print("\n### Matrix Multiplication ###\n")
     A = Matrix([[1, 2], [3, 4]])
     B = Matrix([[5, 6], [7, 8]])
 
