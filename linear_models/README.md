@@ -21,6 +21,8 @@ Before implementing these models, I thought "machine learning" was some mysterio
 
 The most important insight: All of these are fundamentally doing the same thing — adjusting weights to minimize a loss function. The difference is just _WHICH_ loss function and HOW we optimize it.
 
+![linear-reg](../assets/02-linear_models/main.png)
+
 ## Folder Structure
 
 I organized this module to match my learning progression:
