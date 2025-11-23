@@ -56,48 +56,12 @@ This is the most accurate gradient estimate but also the slowest:
 
 """
 
-import os
-import random
-import sys
-from abc import ABC, abstractmethod
-from typing import List, Optional, Tuple
+
 
 from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
-from foundations.loss_functions.mse_loss import mean_squared_error
-from foundations.statistics.descriptive import mean
 
-# So see gradient descent would utlimately depend on the loss function we have so to make this generic , what I did was used Open-Closed Principle of programming , where I defined a rule ( interface ) for loss functions that tells what a loss function has ( in this case a loss and gradient functions ) , now the main optimizer is not concerned with loss or gradient caldulation it just knows that what ever is given to it follows this rule ( interface ) and based on that I can call to get the loss values wht we did was — the Strategy Pattern combined with polymorphism. 
+from .loss_strategies import LossFunction
 
-# ==============================================================================
-# 1. THE ABSTRACT STRATEGY (INTERFACE)
-# ==============================================================================
-class LossFunction(ABC):
-    """
-    Abstract Base Class for all loss functions.
-    
-    To perform Gradient Descent, we need two things from any loss function:
-    1. A way to calculate the error value (to see if we are improving).
-    2. A way to calculate the gradient (to know which direction to move).
-    """
-    @abstractmethod
-    def calculate_loss(self, y_true:Matrix, y_pred:Matrix) -> float:
-        """Returns the scalar loss value"""
-        ...
-         
-    def calculate_gradient(self, X: Matrix, y_true: Matrix, y_pred: Matrix,weights: Vector) -> Vector:
-        """
-        Return the gradient vector (partial derivatives with respect to weights).
-        
-        Why do we need X and weights?
-        - For some losses (like MSE), we just need X and the error (y_pred - y_true).
-        - For others (like L2 Regularized loss), we specifically need the weight values themselves.
-        """
-        ... 
-    
-        
-# ==============================================================================
-# 2. Example : CONCRETE STRATEGIES (MSE, MAE)
-# ==============================================================================    
 
 class MSELoss(LossFunction):
     """
