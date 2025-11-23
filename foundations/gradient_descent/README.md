@@ -11,7 +11,7 @@ By implementing **Batch Gradient Descent**, **Stochastic Gradient Descent (SGD)*
 
 ---
 
-## 🌄 The Philosophy of Gradient Descent
+## The Philosophy of Gradient Descent
 
 At its core, gradient descent is nothing more than an iterative process of **improvement**.
 Imagine you are standing on a foggy mountain, trying to reach the lowest point of the valley. You can’t see far, but you can feel the slope beneath your feet.
@@ -27,7 +27,7 @@ By following the negative gradient step by step, we gradually find parameters th
 
 ---
 
-## 🧠 Mathematical Intuition
+## Mathematical Intuition
 
 For a loss function $J(\theta)$, where $\theta$ represents model parameters:
 
@@ -43,9 +43,11 @@ where:
 
 This single equation drives almost all learning in modern AI.
 
+![gradient_descent](../../assets/01-foundations/gradient_descent/gradient_descent.png)
+
 ---
 
-## ⚙️ Implementations Included
+## Implementations Included
 
 ### 1. **Batch Gradient Descent**
 
@@ -125,7 +127,7 @@ $$
 
 ---
 
-## 📘 Implementation Roadmap
+## Implementation Roadmap
 
 Each variant of gradient descent in this module is implemented from **first principles**, using only Python’s standard library and mathematical primitives from the `foundations` folder.
 
@@ -133,52 +135,13 @@ Each variant of gradient descent in this module is implemented from **first prin
 
 - **Matrix & Vector Operations:** from `foundations.linear_algebra`
 - **Statistical Functions:** from `foundations.statistics`
-- **Loss Functions:** (e.g., Mean Squared Error) from `foundations.metrics`
+- **Loss Functions:** (e.g., Mean Squared Error) from `foundations.loss_functions`
 - **Learning Rate Scheduler:** simple step-decay mechanism
 - **Verbose Logging:** optional step-by-step progress tracking
 
 ---
 
-## 🔍 Visualization and Intuition
-
-To build geometric intuition, this module also includes optional visualizations that demonstrate:
-
-- How parameter updates move downhill on a 3D loss surface
-- The difference between smooth batch updates vs noisy SGD trajectories
-- The impact of learning rate on convergence
-
-Example visualization:
-
-```
-Before: θ = [5.0], Loss = 25.0
-After  : θ = [0.12], Loss = 0.015
-Converged in 45 iterations!
-```
-
-Each visualization reinforces the idea that **learning = iterative correction guided by gradients**.
-
----
-
-## 🧩 Example Usage
-
-```python
-from foundations.linear_algebra.vectors_and_matrices import Matrix
-from foundations.gradient_descent import GradientDescent
-
-# Example: Fit y = 2x + 1 using gradient descent
-
-X = Matrix([[1], [2], [3], [4], [5]])
-y = Matrix([[3], [5], [7], [9], [11]])
-
-gd = GradientDescent(learning_rate=0.01, epochs=1000, method='mini_batch', batch_size=2)
-theta = gd.fit(X, y, loss='mse')
-
-print(f"Learned parameters: {theta}")
-```
-
----
-
-## 🧭 Conceptual Summary
+## Conceptual Summary
 
 | Method            | Uses Entire Dataset? | Stability | Speed    | Memory      | Typical Use      |
 | ----------------- | -------------------- | --------- | -------- | ----------- | ---------------- |
@@ -188,7 +151,7 @@ print(f"Learned parameters: {theta}")
 
 ---
 
-## 🧮 Mathematical Insights
+## Mathematical Insights
 
 - Gradient Descent ≈ **numerical optimization**
 - SGD ≈ **Monte Carlo approximation** of the gradient
@@ -197,7 +160,7 @@ print(f"Learned parameters: {theta}")
 
 ---
 
-## 🎨 Design Philosophy
+## Design Philosophy
 
 This module continues the repository’s guiding principle:
 
@@ -211,30 +174,12 @@ Each variant is:
 
 ---
 
-## 📚 Further Reading and Inspiration
+## Further Reading and Inspiration
 
 - Peter Harrington, _Machine Learning in Action_
 - Andrew Ng, _CS229 Lectures: Optimization Algorithms_
 - Sebastian Ruder, _An Overview of Gradient Descent Optimization Algorithms_
 - CampusX YouTube series: _Gradient Descent Intuition and Implementation_
-
----
-
-## 🚀 Next Steps
-
-After mastering the basics of gradient descent, future modules will extend these concepts to:
-
-- **Adaptive Methods:** Momentum, AdaGrad, RMSProp, Adam
-- **Regularization Techniques:** Weight decay, early stopping
-- **Convex Optimization Theory**
-
-These extensions build directly on the foundations laid here.
-
----
-
-**Current Status:** Implemented batch, mini-batch, and stochastic gradient descent
-**Next Milestone:** Add adaptive learning rate methods (Momentum, Adam)
-**Long-Term Goal:** Integrate full optimization suite into the custom ML library
 
 ---
 
