@@ -21,13 +21,13 @@ We update weights by moving opposite to the gradient:
 
 """
 
-from typing import Literal, Optional
+from typing import Literal
 
 from foundations.gradient_descent.batch_gd import BatchGradientDescent
 from foundations.gradient_descent.loss_strategies import MSELoss
 from foundations.gradient_descent.mini_batch_gd import MiniBatchGradientDescent
 from foundations.gradient_descent.sdg import StochasticGradientDescent
-from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
+from foundations.linear_algebra.vectors_and_matrices import Matrix
 
 
 class LinearRegression:

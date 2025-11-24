@@ -75,7 +75,7 @@ Gradient Descent:
 
 
 from foundations.linear_algebra.vectors_and_matrices import Matrix, Vector
-from typing import Optional
+
 
 class LinearRegressionClosedForm:
     """
