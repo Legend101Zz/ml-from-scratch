@@ -101,13 +101,11 @@ I had a model predicting with features `[sqft, bedrooms, age, distance_to_school
 
 **The math:**
 
-
 $$
 \text{Loss}
 = \frac{1}{n} \sum_{i=1}^{n} (\hat{y}_i - y_i)^2
 + \lambda \sum_{i=1}^{d} |w_i|
 $$
-
 
 **What it does:**
 
@@ -145,7 +143,6 @@ $$
 \right)
 $$
 
-
 Where α controls the mix:
 
 - α = 1: Pure Lasso (only L1)
@@ -166,6 +163,13 @@ Where α controls the mix:
 
 **The practical advantage:**
 Imagine features `sqft` and `sqft_meters` (perfectly correlated). Lasso might arbitrarily pick one and zero the other. Ridge keeps both with small weights. Elastic Net keeps both but one might be zeroed if truly redundant, while handling the correlation gracefully.
+
+### Also how did people figure that Prediction Error + λ × Complexity Penalty works , well :
+
+> Model complexity increases as the parameters become large.
+> Small parameter values = smoother / simpler functions.
+
+So to enforce simplicity, simply discourage large weights.
 
 ### `regularization_helpers.py` — Choosing λ
 
