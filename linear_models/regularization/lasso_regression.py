@@ -287,6 +287,33 @@ class LassoRegression:
         
     history_ : dict
         Training history including sparsity level
+        
+    EXAMPLE USAGE:
+    -------------
+    >>> from foundations.data_preprocessing.feature_engineering import (
+    ...     Standardizer, add_bias_column, train_test_split
+    ... )
+    >>> 
+    >>> # Prepare data (standardization is CRITICAL!)
+    >>> scaler = Standardizer()
+    >>> X_train_scaled = scaler.fit_transform(X_train)
+    >>> X_test_scaled = scaler.transform(X_test)
+    >>> 
+    >>> X_train_bias = add_bias_column(X_train_scaled)
+    >>> X_test_bias = add_bias_column(X_test_scaled)
+    >>> 
+    >>> # Train Lasso
+    >>> model = LassoRegression(alpha=0.1, n_epochs=500, verbose=True)
+    >>> model.fit(X_train_bias, y_train)
+    >>> 
+    >>> # Check which features survived
+    >>> n_active = sum(1 for w in model.weights_.elements if abs(w) > 1e-6)
+    >>> print(f"Active features: {n_active}/{len(model.weights_)}")
+    >>> 
+    >>> # See the sparse weights
+    >>> for i, w in enumerate(model.weights_.elements):
+    ...     if abs(w) > 1e-6:
+    ...         print(f"Feature {i}: {w:.4f}")
     """
     
     def __init__(
